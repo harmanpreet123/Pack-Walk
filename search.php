@@ -1,45 +1,47 @@
 <?php
-/**
- * The template for displaying search results pages.
- *
- * @package Sydney
- */
-
 get_header(); ?>
 
-	<div id="primary" class="content-area col-md-9">
-		<main id="main" class="post-wrap" role="main">
+    <header id="kt-page-header-simple" class="text-center">
 
-		<?php if ( have_posts() ) : ?>
+        <h1 class="kt-post-entry-title kt-search-title">
+            <?php echo __('Search results for the term: ', 'chinese-restaurant') . $_GET['s']; ?>
+            <?php if ($paged > 1):
+                echo
+                    '<small>' . __('   Page:
+', 'chinese-restaurant') . $paged
+                    . '</small>'; endif; ?>
+        </h1><!-- .entry-title -->
+    </header>
 
-			<header class="page-header">
-				<h3><?php printf( __( 'Search Results for: %s', 'sydney' ), '<span>' . get_search_query() . '</span>' ); ?></h31>
-			</header><!-- .page-header -->
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <?php do_action('chinese_before_main_content'); ?>
 
-			<?php /* Start the Loop */ ?>
-			<?php while ( have_posts() ) : the_post(); ?>
+                <section id="kt-primary">
 
-				<?php
-				/**
-				 * Run the loop for the search to output the results.
-				 * If you want to overload this in a child theme then include a file
-				 * called content-search.php and that will be used instead.
-				 */
-				get_template_part( 'content', 'search' );
-				?>
+                    <div id="kt-content" class="clearfix">
 
-			<?php endwhile; ?>
+                        <?php get_template_part('framework/templates/content-search'); ?>
 
-			<?php the_posts_navigation(); ?>
+                    </div>
 
-		<?php else : ?>
+                </section>
+                <?php do_action('chinese_after_main_content'); ?>
+            </div>
 
-			<?php get_template_part( 'content', 'none' ); ?>
+            <div class="col-md-4">
+                <aside id="kt-sidebar" style="margin-top:47px">
+                    <?php if (!dynamic_sidebar('sidebar')): ?>
+                        <div class="pre-widget">
 
-		<?php endif; ?>
+                        </div>
+                    <?php endif; ?>
+                </aside>
+            </div>
 
-		</main><!-- #main -->
-	</div><!-- #primary -->
-
-<?php get_sidebar(); ?>
-<?php get_footer(); ?>
+        </div>
+        <!-- primary-page content ends here -->
+    </div>
+<?php
+get_footer();

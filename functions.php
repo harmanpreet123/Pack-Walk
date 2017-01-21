@@ -1,391 +1,372 @@
 <?php
-/**
- * Sydney functions and definitions
- *
- * @package Sydney
- */
+/**=== Setup Theme == **/
 
+add_action('after_setup_theme','chinese_setup_theme');
+if( !function_exists('chinese_setup_theme')):
+    function chinese_setup_theme(){
+        /**== Set main content width ==**/
+        if(!isset( $content_width ))
+            $content_width = 750;
 
-if ( ! function_exists( 'sydney_setup' ) ) :
-/**
- * Sets up theme defaults and registers support for various WordPress features.
- *
- * Note that this function is hooked into the after_setup_theme hook, which
- * runs before the init hook. The init hook is too late for some features, such
- * as indicating support for post thumbnails.
- */
-function sydney_setup() {
+        /**== Add RSS links to the theme ==**/
+        add_theme_support( 'automatic-feed-links' );
 
-	/*
-	 * Make theme available for translation.
-	 * Translations can be filed in the /languages/ directory.
-	 * If you're building a theme based on Sydney, use a find and replace
-	 * to change 'sydney' to the name of your theme in all the template files
-	 */
-	load_theme_textdomain( 'sydney', get_template_directory() . '/languages' );
+        /**== This theme is ready for translation ==**/
+        load_theme_textdomain( 'chinese-restaurant', get_template_directory(). '/languages' );
 
-	// Add default posts and comments RSS feed links to head.
-	add_theme_support( 'automatic-feed-links' );
+        /**== Add HTML5 to some elements -galleries and captions ==**/
+        add_theme_support('html5', array( 'gallery', 'caption' ));
 
-	// Content width
-	global $content_width;
-	if ( ! isset( $content_width ) ) {
-		$content_width = 1170; /* pixels */
-	}
+        /**== Add newest title-tag support for wordpress version 4.1 and above ==**/
+        global $wp_version;
+        if (version_compare( $wp_version, '4.1', '>=' )):
+            add_theme_support( 'title-tag' );
+        endif;
 
-	/*
-	 * Let WordPress manage the document title.
-	 * By adding theme support, we declare that this theme does not use a
-	 * hard-coded <title> tag in the document head, and expect WordPress to
-	 * provide it for us.
-	 */
-	add_theme_support( 'title-tag' );
+        /**== Register the navigation menus and positions ==**/
+        register_nav_menus( array(
+            'main' =>       __( 'Main Navigation', 'chinese-restaurant' )
+        ));
 
-	/*
-	 * Enable support for Post Thumbnails on posts and pages.
-	 *
-	 * @link http://codex.wordpress.org/Function_Reference/add_theme_support#Post_Thumbnails
-	 */
-	add_theme_support( 'post-thumbnails' );
-	add_image_size('sydney-large-thumb', 830);
-	add_image_size('sydney-medium-thumb', 550, 400, true);
-	add_image_size('sydney-small-thumb', 230);
-	add_image_size('sydney-service-thumb', 350);
-	add_image_size('sydney-mas-thumb', 480);
+        /**== Custom Background ==**/
+        $chinese_background_defaults = array(
+            'default-color' => 'ffffff',
+            'default-image' => '',
+            'wp-head-callback' => 'chinese_background_callback',
+        );
+        add_theme_support( 'custom-background', $chinese_background_defaults );
 
-	// This theme uses wp_nav_menu() in one location.
-	register_nav_menus( array(
-		'primary' => __( 'Primary Menu', 'sydney' ),
-	) );
+        /**== Custom Header Image ==**/
+        $chinese_header_defaults = array(
+            'default-image'          => '',
+            'random-default'         => false,
+            'width'                  => '1920',
+            'height'                 => '850',
+            'flex-height'            => false,
+            'flex-width'             => false,
+            'default-text-color'     => '',
+            'header-text'            => false,
+            'uploads'                => true,
+            'wp-head-callback'       => '',
+            'admin-head-callback'    => '',
+            'admin-preview-callback' => '',
+        );
+        add_theme_support( 'custom-header', $chinese_header_defaults );
 
-	/*
-	 * Switch default core markup for search form, comment form, and comments
-	 * to output valid HTML5.
-	 */
-	add_theme_support( 'html5', array(
-		'search-form', 'comment-form', 'comment-list', 'gallery', 'caption',
-	) );
+        /**== This adds an excerpt field for  pages ==**/
+        add_post_type_support( 'page', 'excerpt' );
 
-	/*
-	 * Enable support for Post Formats.
-	 * See http://codex.wordpress.org/Post_Formats
-	 */
-	add_theme_support( 'post-formats', array(
-		'aside', 'image', 'video', 'quote', 'link',
-	) );
+        /**== This theme uses featured images ==**/
+        add_theme_support('post-thumbnails' );
+        add_image_size('blog-image',768,600,true);
 
-	// Set up the WordPress core custom background feature.
-	add_theme_support( 'custom-background', apply_filters( 'sydney_custom_background_args', array(
-		'default-color' => 'ffffff',
-		'default-image' => '',
-	) ) );
-}
-endif; // sydney_setup
-add_action( 'after_setup_theme', 'sydney_setup' );
-
-/**
- * Register widget area.
- *
- * @link http://codex.wordpress.org/Function_Reference/register_sidebar
- */
-function sydney_widgets_init() {
-	register_sidebar( array(
-		'name'          => __( 'Sidebar', 'sydney' ),
-		'id'            => 'sidebar-1',
-		'description'   => '',
-		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
-		'after_widget'  => '</aside>',
-		'before_title'  => '<h3 class="widget-title">',
-		'after_title'   => '</h3>',
-	) );
-
-	//Footer widget areas
-	$widget_areas = get_theme_mod('footer_widget_areas', '3');
-	for ($i=1; $i<=$widget_areas; $i++) {
-		register_sidebar( array(
-			'name'          => __( 'Footer ', 'sydney' ) . $i,
-			'id'            => 'footer-' . $i,
-			'description'   => '',
-			'before_widget' => '<aside id="%1$s" class="widget %2$s">',
-			'after_widget'  => '</aside>',
-			'before_title'  => '<h3 class="widget-title">',
-			'after_title'   => '</h3>',
-		) );
-	}
-
-	//Register the front page widgets
-	if ( function_exists('siteorigin_panels_activate') ) {
-		register_widget( 'Sydney_List' );
-		register_widget( 'Sydney_Services_Type_A' );
-		register_widget( 'Sydney_Services_Type_B' );
-		register_widget( 'Sydney_Facts' );
-		register_widget( 'Sydney_Clients' );
-		register_widget( 'Sydney_Testimonials' );
-		register_widget( 'Sydney_Skills' );
-		register_widget( 'Sydney_Action' );
-		register_widget( 'Sydney_Video_Widget' );
-		register_widget( 'Sydney_Social_Profile' );
-		register_widget( 'Sydney_Employees' );
-		register_widget( 'Sydney_Latest_News' );
-		register_widget( 'Sydney_Contact_Info' );
-		register_widget( 'Sydney_Portfolio' );
-	}
-
-}
-add_action( 'widgets_init', 'sydney_widgets_init' );
-
-/**
- * Load the front page widgets.
- */
-if ( function_exists('siteorigin_panels_activate') ) {
-	require get_template_directory() . "/widgets/fp-list.php";
-	require get_template_directory() . "/widgets/fp-services-type-a.php";
-	require get_template_directory() . "/widgets/fp-services-type-b.php";
-	require get_template_directory() . "/widgets/fp-facts.php";
-	require get_template_directory() . "/widgets/fp-clients.php";
-	require get_template_directory() . "/widgets/fp-testimonials.php";
-	require get_template_directory() . "/widgets/fp-skills.php";
-	require get_template_directory() . "/widgets/fp-call-to-action.php";
-	require get_template_directory() . "/widgets/video-widget.php";
-	require get_template_directory() . "/widgets/fp-social.php";
-	require get_template_directory() . "/widgets/fp-employees.php";
-	require get_template_directory() . "/widgets/fp-latest-news.php";
-	require get_template_directory() . "/widgets/fp-portfolio.php";
-	require get_template_directory() . "/widgets/contact-info.php";
-}
-
-/**
- * Enqueue scripts and styles.
- */
-function sydney_scripts() {
-
-	if ( get_theme_mod('body_font_name') !='' ) {
-	    wp_enqueue_style( 'sydney-body-fonts', '//fonts.googleapis.com/css?family=' . esc_attr(get_theme_mod('body_font_name')) );
-	} else {
-	    wp_enqueue_style( 'sydney-body-fonts', '//fonts.googleapis.com/css?family=Source+Sans+Pro:400,400italic,600');
-	}
-
-	if ( get_theme_mod('headings_font_name') !='' ) {
-	    wp_enqueue_style( 'sydney-headings-fonts', '//fonts.googleapis.com/css?family=' . esc_attr(get_theme_mod('headings_font_name')) );
-	} else {
-	    wp_enqueue_style( 'sydney-headings-fonts', '//fonts.googleapis.com/css?family=Raleway:400,500,600');
-	}
-
-	wp_enqueue_style( 'sydney-style', get_stylesheet_uri() );
-
-	wp_enqueue_style( 'sydney-font-awesome', get_template_directory_uri() . '/fonts/font-awesome.min.css' );
-
-	wp_enqueue_style( 'sydney-ie9', get_template_directory_uri() . '/css/ie9.css', array( 'sydney-style' ) );
-	wp_style_add_data( 'sydney-ie9', 'conditional', 'lte IE 9' );
-
-	wp_enqueue_script( 'sydney-scripts', get_template_directory_uri() . '/js/scripts.js', array('jquery'),'', true );
-
-	wp_enqueue_script( 'sydney-main', get_template_directory_uri() . '/js/main.min.js', array('jquery'),'', true );
-
-	wp_enqueue_script( 'sydney-skip-link-focus-fix', get_template_directory_uri() . '/js/skip-link-focus-fix.js', array(), '20130115', true );
-
-	if ( get_theme_mod('blog_layout') == 'masonry-layout' && (is_home() || is_archive()) ) {
-
-		wp_enqueue_script( 'sydney-masonry-init', get_template_directory_uri() . '/js/masonry-init.js', array('masonry'),'', true );
-	}
-
-	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
-		wp_enqueue_script( 'comment-reply' );
-	}
-}
-add_action( 'wp_enqueue_scripts', 'sydney_scripts' );
-
-/**
- * Enqueue Bootstrap
- */
-function sydney_enqueue_bootstrap() {
-	wp_enqueue_style( 'sydney-bootstrap', get_template_directory_uri() . '/css/bootstrap/bootstrap.min.css', array(), true );
-}
-add_action( 'wp_enqueue_scripts', 'sydney_enqueue_bootstrap', 9 );
-
-/**
- * Change the excerpt length
- */
-function sydney_excerpt_length( $length ) {
-
-  $excerpt = get_theme_mod('exc_lenght', '55');
-  return $excerpt;
-
-}
-add_filter( 'excerpt_length', 'sydney_excerpt_length', 999 );
-
-/**
- * Blog layout
- */
-function sydney_blog_layout() {
-	$layout = get_theme_mod('blog_layout','classic');
-	return $layout;
-}
-
-/**
- * Menu fallback
- */
-function sydney_menu_fallback() {
-	if ( current_user_can('edit_theme_options') ) {
-		echo '<a class="menu-fallback" href="' . admin_url('nav-menus.php') . '">' . __( 'Create your menu here', 'sydney' ) . '</a>';
-	}
-}
-
-/**
- * Header image overlay
- */
-function sydney_header_overlay() {
-	$overlay = get_theme_mod( 'hide_overlay', 0);
-	if ( !$overlay ) {
-		echo '<div class="overlay"></div>';
-	}
-}
-
-/**
- * Header video
- */
-function sydney_header_video() {
-
-	if ( !function_exists('the_custom_header_markup') ) {
-		return;
-	}
-
-	$front_header_type 	= get_theme_mod( 'front_header_type' );
-	$site_header_type 	= get_theme_mod( 'site_header_type' );
-
-	if ( ( get_theme_mod('front_header_type') == 'core-video' && is_front_page() || get_theme_mod('site_header_type') == 'core-video' && !is_front_page() ) ) {
-		the_custom_header_markup();
-	}
-}
-
-/**
- * Polylang compatibility
- */
-if ( function_exists('pll_register_string') ) :
-function sydney_polylang() {
-	for ( $i=1; $i<=5; $i++) {
-		pll_register_string('Slide title ' . $i, get_theme_mod('slider_title_' . $i), 'Sydney');
-		pll_register_string('Slide subtitle ' . $i, get_theme_mod('slider_subtitle_' . $i), 'Sydney');
-	}
-	pll_register_string('Slider button text', get_theme_mod('slider_button_text'), 'Sydney');
-	pll_register_string('Slider button URL', get_theme_mod('slider_button_url'), 'Sydney');
-}
-add_action( 'admin_init', 'sydney_polylang' );
+        add_image_size('chinese-page-image-col-md-12',1140,420,true);
+        add_image_size('chinese-page-image-col-md-8',719,320,true);
+        add_image_size('chinese-page-image-col-md-6',585,280,true);
+        add_image_size('chinese-page-image-col-md-4',330,250,true);
+        add_image_size('chinese-page-image-col-md-3',295,220,true);
+        add_image_size('chinese-recent-posts-image',100,100,true);
+    }
 endif;
 
+/**== Setup theme ends here ==**/
+
+/**================================================**/
+/** Fallback functions
+ **  - Background Callback
+ **  - Navigation Menu callback (when is not a
+ *     menu set up)
+/**================================================**/
+if(!function_exists('chinese_background_callback')):
+
+    function chinese_background_callback() {
+        $background = set_url_scheme( get_background_image() );
+        $color = get_theme_mod( 'background_color', get_theme_support( 'custom-background', 'default-color' ) );
+
+        if ( ! $background && ! $color )
+            return;
+
+        $style = $color ? "background-color: #$color;" : '';
+
+        if ( $background ) {
+            $image = " background-image: url('$background');";
+
+            $repeat = get_theme_mod( 'background_repeat', get_theme_support( 'custom-background', 'default-repeat' ) );
+            if ( ! in_array( $repeat, array( 'no-repeat', 'repeat-x', 'repeat-y', 'repeat' ) ) )
+                $repeat = 'repeat';
+            $repeat = " background-repeat: $repeat;";
+
+            $position = get_theme_mod( 'background_position_x', get_theme_support( 'custom-background', 'default-position-x' ) );
+            if ( ! in_array( $position, array( 'center', 'right', 'left' ) ) )
+                $position = 'left';
+            $position = " background-position: top $position;";
+
+            $attachment = get_theme_mod( 'background_attachment', get_theme_support( 'custom-background', 'default-attachment' ) );
+            if ( ! in_array( $attachment, array( 'fixed', 'scroll' ) ) )
+                $attachment = 'scroll';
+            $attachment = " background-attachment: $attachment;";
+
+            $style .= $image . $repeat . $position . $attachment;
+        }
+        ?>
+        <style type="text/css" id="custom-background-css">
+            body.custom-background { <?php echo trim( $style ); ?> }
+        </style>
+    <?php
+    }
+endif;
+
+if(!function_exists('chinese_fallback_menu')):
+    function chinese_fallback_menu($args){
+        if ( ! current_user_can( 'manage_options' ) )
+        {
+            return;
+        }
+        extract( $args );
+        $link = $link_before
+            . '<a href="' .admin_url( 'nav-menus.php' ) . '">' . $before . __('Add a menu','chinese-restaurant') . $after . '</a>'
+            . $link_after;
+        if ( FALSE !== stripos( $items_wrap, '<ul' )
+            or FALSE !== stripos( $items_wrap, '<ol' )
+        )
+        {
+            $link = "<li>$link</li>";
+        }
+
+        $output = sprintf( $items_wrap, $menu_id, $menu_class, $link );
+        if ( ! empty ( $container ) )
+        {
+            $output  = "<$container class='$container_class' id='$container_id'>$output</$container>";
+        }
+        if ( $echo )
+        {
+            echo $output;
+        }
+
+        return $output;
+    }
+endif;
+
+
+/**================================================**/
 /**
- * Preloader
- */
-function sydney_preloader() {
-	?>
-	<div class="preloader">
-	    <div class="spinner">
-	        <div class="pre-bounce1"></div>
-	        <div class="pre-bounce2"></div>
-	    </div>
-	</div>
-	<?php
+ * Enqueue CSS & JS for the theme.
+ **
+/**================================================**/
+
+add_action('wp_enqueue_scripts','chinese_add_stylesheets');
+function chinese_add_stylesheets(){
+
+    wp_enqueue_style( 'chinese-bootstrap', get_template_directory_uri()
+        .'/css/bootstrap.min.css','','','all' );
+
+    wp_enqueue_style( 'chinese-bootstrap-theme', get_template_directory_uri()
+        .'/css/bootstrap-theme.min.css','','','all' );
+
+    wp_enqueue_style( 'chinese-fontawesome', get_template_directory_uri()
+        .'/css/font-awesome.min.css','','','all' );
+
+    wp_enqueue_style( 'chinese-lato', get_template_directory_uri()
+        .'/fonts/Lato-Font/stylesheet.css','','','all' );
+
+    wp_enqueue_style( 'chinese-fontello', get_template_directory_uri()
+        .'/fonts/Ketchup-Font/css/fontello.css','','','all' );
+
+    wp_enqueue_style( 'chinese-fontello-embedded', get_template_directory_uri()
+        .'/fonts/Ketchup-Font/css/fontello-embedded.css','','','all' );
+
+    wp_enqueue_style( 'chinese-fontello-codes', get_template_directory_uri()
+        .'/fonts/Ketchup-Font/css/fontello-codes.css','','','all' );
+
+
+
+    /*************************************************************************/
+
+    wp_enqueue_style('chinese-animate',get_template_directory_uri()
+        .'/css/animate.min.css','','all');
+
+    wp_enqueue_style('chinese-tor-area',get_template_directory_uri()
+        .'/css/chinese-top-area.css','','all');
+
+
+    wp_enqueue_style('chinese-slider',get_template_directory_uri()
+        .'/css/chinese-slider.css','','all');
+
+    wp_enqueue_style('chinese-contact',get_template_directory_uri()
+        .'/css/chinese-contact.css','','all');
+
+    wp_enqueue_style('chinese-blog',get_template_directory_uri()
+        .'/css/chinese-blog.css','','all');
+
+    wp_enqueue_style('chinese-slicknav',get_template_directory_uri()
+        .'/css/slicknav.css','','all');
+
+    wp_enqueue_style('chinese-slippry',get_template_directory_uri()
+        .'/css/slippry.css','','all');
+
+    wp_enqueue_style('chinese-widgets',get_template_directory_uri()
+        .'/css/chinese-widgets.css','','all');
+
+
+    wp_enqueue_style('chinese-magnificpopupcss',get_template_directory_uri()
+        .'/css/magnific-popup.css','','all');
+
+
+    wp_enqueue_style('chinese-style',get_stylesheet_uri(),'','','all');
+
 }
-add_action('sydney_before_site', 'sydney_preloader');
 
-/**
- * Header clone
- */
-function sydney_header_clone() {
 
-	$front_header_type 	= get_theme_mod('front_header_type','slider');
-	$site_header_type 	=get_theme_mod('site_header_type');
+add_action('wp_enqueue_scripts','chinese_add_scripts');
+function chinese_add_scripts(){
 
-	if ( ( $front_header_type == 'nothing' && is_front_page() ) || ( $site_header_type == 'nothing' && !is_front_page() ) ) { ?>
-	
-	<div class="header-clone"></div>
+    if ( is_singular() && get_option( 'thread_comments' ) )
+        wp_enqueue_script( 'comment-reply' );
 
-	<?php }
+
+    wp_enqueue_script('chinese-bootstrap', get_template_directory_uri()
+        .'/js/bootstrap .min.js',
+        array('jquery'),'',true);
+
+    /******************************************************************
+    *******************----- Scripts ----******************************/
+
+
+    wp_enqueue_script('chinese-slicknav', get_template_directory_uri()
+        .'/js/jquery.slicknav.min.js',
+        array('jquery'),'',true);
+
+    wp_enqueue_script('chinese-tiled', get_template_directory_uri()
+        .'/js/stylehatch.js',
+        array('jquery'),'',true);
+
+    wp_enqueue_script('chinese-imagesloaded', get_template_directory_uri()
+        .'/js/imageloaded.pkgd.min.js',
+        array('jquery'),'',true);
+
+
+    wp_enqueue_script('burger-matchHeight', get_template_directory_uri()
+        .'/js/jquery.matchHeight-min.js',
+        array('jquery'),'',true);
+
+
+    wp_enqueue_script('burger-magnificpopupjs', get_template_directory_uri()
+        .'/js/jquery.magnific-popup.min.js',
+        array('jquery'),'',true);
+
+
+    wp_enqueue_script('burger-theme-js', get_template_directory_uri()
+        .'/js/init.js',
+        array('jquery'),'',true);
 }
-add_action('sydney_before_header', 'sydney_header_clone');
 
-/**
- * Implement the Custom Header feature.
- */
-require get_template_directory() . '/inc/custom-header.php';
+add_action('wp_head', 'chinese_add_html5shiv');
 
-/**
- * Custom template tags for this theme.
- */
-require get_template_directory() . '/inc/template-tags.php';
+function chinese_add_html5shiv () {
+    echo '<!--[if lt IE 9]>';
+    echo '<script src="'.get_template_directory_uri().'/js/html5shiv.min.js"></script>';
+    echo '<![endif]-->';
+}
 
-/**
- * Custom functions that act independently of the theme templates.
- */
-require get_template_directory() . '/inc/extras.php';
+/**====================== 
+ Sidebars.
+ ======================**/
 
-/**
- * Customizer additions.
- */
-require get_template_directory() . '/inc/customizer.php';
+/**== Add some sidebars ==**/
+add_action('widgets_init','chinese_register_sidebars');
+function chinese_register_sidebars(){
 
-/**
- * Load Jetpack compatibility file.
- */
-require get_template_directory() . '/inc/jetpack.php';
+    /**== Right sidebar ==**/
+    register_sidebar( array(
+        'name'              => __( 'Sidebar', 'chinese-restaurant' ),
+        'id'                => 'sidebar',
+        'description'       => __( 'This is the main sidebar.It is in every page - post and
+        in the blog page. However you can override this setting from within each post.',
+            'chinese-restaurant' ),
+        'before_widget'     => '<div id="%1$s" class="widget %2$s">',
+        'after_widget'      => '</div>',
+        'before_title'      => '<h3 class="widget-title">',
+        'after_title'       => '</h3>'
+    ));
 
-/**
- * Page builder support
- */
-require get_template_directory() . '/inc/page-builder.php';
 
-/**
- * Slider
- */
-require get_template_directory() . '/inc/slider.php';
 
-/**
- * Styles
- */
-require get_template_directory() . '/inc/styles.php';
-
-/**
- * Theme info
- */
-require get_template_directory() . '/inc/theme-info.php';
-
-/**
- * Woocommerce basic integration
- */
-require get_template_directory() . '/inc/woocommerce.php';
-
-/**
- * Upsell
- */
-require get_template_directory() . '/inc/upsell/class-customize.php';
-
-/**
- * Demo content
- */
-require_once dirname( __FILE__ ) . '/demo-content/setup.php';
-
-/**
- *TGM Plugin activation.
- */
-require_once dirname( __FILE__ ) . '/plugins/class-tgm-plugin-activation.php';
-
-add_action( 'tgmpa_register', 'sydney_recommend_plugin' );
-function sydney_recommend_plugin() {
-
-    $plugins[] = array(
-            'name'               => 'Page Builder by SiteOrigin',
-            'slug'               => 'siteorigin-panels',
-            'required'           => false,
-    );
-
-	if ( !function_exists('wpcf_init') ) {
-	    $plugins[] = array(
-		        'name'               => 'Sydney Toolbox - custom posts and fields for the Sydney theme',
-		        'slug'               => 'sydney-toolbox',
-		        'required'           => false,
-		);
-	}
-
-    tgmpa( $plugins);
+    /**== Footer Sidebar 1 ==**/
+    register_sidebar( array(
+        'name'              => __( 'Footer Sidebar 1', 'chinese-restaurant' ),
+        'id'                => 'chinese_footer_1_sidebar',
+        'description'       => __( 'This is the sidebar in the footer, on the left', 'chinese-restaurant' ),
+        'before_widget'     => '<aside id="%1$s" class="footerwidget %2$s">',
+        'after_widget'      => '</aside>',
+        'before_title'      => '<h3 class="widget-title">',
+        'after_title'       => '</h3>'
+    ));
+    /**== Footer Sidebar 1 ==**/
+    register_sidebar( array(
+        'name'              => __( 'Footer Sidebar 2', 'chinese-restaurant' ),
+        'id'                => 'chinese_footer_2_sidebar',
+        'description'       => __( 'This is the sidebar in the footer, on the right.',
+            'chinese-restaurant' ),
+        'before_widget'     => '<aside id="%1$s" class="footerwidget %2$s">',
+        'after_widget'      => '</aside>',
+        'before_title'      => '<h3 class="widget-title">',
+        'after_title'       => '</h3>'
+    ));
 
 }
+
+/**=====================
+ * Comments
+ *=====================/
+/**== Post Comment Callback ==**/
+if(!function_exists('chinese_comment')):
+    function chinese_comment($comment, $args, $depth) {
+        $GLOBALS['comment'] = $comment;
+        extract($args, EXTR_SKIP);
+
+        if ( 'div' == $args['style'] ) {
+            $tag = 'div';
+            $add_below = 'comment';
+        } else {
+            $tag = 'li';
+            $add_below = 'div-comment';
+        }
+        ?>
+        <<?php echo $tag ?> <?php comment_class( empty( $args['has_children'] ) ? '' : 'parent' ) ?> id="comment-<?php comment_ID() ?>">
+        <?php if ( 'div' != $args['style'] ) : ?>
+            <div id="div-comment-<?php comment_ID() ?>" class="comment-body">
+        <?php endif; ?>
+        <div class="comment-author vcard">
+            <?php
+            if ( $args['avatar_size'] != 0 ) echo get_avatar( $comment, $args['avatar_size'] ); ?>
+            <?php printf( __( '<cite class="fn">%s</cite> <span class="says">says:</span>' ), get_comment_author_link() ); ?>
+
+            <div class="comment-meta commentmetadata"><a href="<?php echo htmlspecialchars( get_comment_link( $comment->comment_ID ) ); ?>">
+                    <?php
+                    printf( __('%1$s at %2$s','chinese-restaurant'), get_comment_date(),  get_comment_time() ); ?></a><?php edit_comment_link( __( '(Edit)','chinese-restaurant' ), '  ', '' );
+                ?>
+            </div>
+        </div>
+
+        <?php if ( $comment->comment_approved == '0' ) : ?>
+            <em class="comment-awaiting-moderation"><?php _e( 'Your comment is awaiting moderation.','chinese-restaurant' ); ?></em>
+            <br />
+        <?php endif; ?>
+        <div class="beyond_comment_body">
+            <?php comment_text(); ?>
+        </div>
+        <div class="reply">
+            <?php comment_reply_link( array_merge( $args, array( 'add_below' => $add_below, 'depth' => $depth, 'max_depth' => $args['max_depth'] ) ) ); ?>
+        </div>
+        <?php if ( 'div' != $args['style'] ) : ?>
+            </div>
+        <?php endif; ?>
+    <?php
+    }
+endif;
+/**=====================
+ * Requires
+ *==================== */
+
+ require_once(get_template_directory().'/framework/ketchup-functions.php');
+ require_once(get_template_directory().'/framework/libs/class-tgm-plugin-activation.php');

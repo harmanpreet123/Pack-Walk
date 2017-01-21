@@ -1,37 +1,56 @@
-<?php
-/**
- * The template for displaying the footer.
- *
- * Contains the closing of the #content div and all content after
- *
- * @package Sydney
- */
-?>
-			</div>
-		</div>
-	</div><!-- #content -->
+<?php if (chinese_has_active_footer() != false): ?>
+    <footer id="kt-footer">
 
-	<?php do_action('sydney_before_footer'); ?>
+        <?php do_action('chinese_before_footer'); ?>
+        <?php
 
-	<?php if ( is_active_sidebar( 'footer-1' ) ) : ?>
-		<?php get_sidebar('footer'); ?>
-	<?php endif; ?>
+        $chinese_footer_info = chinese_has_active_footer();
+        $chinese_footer_class = $chinese_footer_info['class'];
+        $chinese_sidebars_count = $chinese_footer_info['sidebars_count'];
+        ?>
+        <div class="container">
+            <div class="row">
+                <div id="kt-footer-area">
+                    <?php for ($i = 1; $i < $chinese_sidebars_count + 1; $i++): ?>
 
-    <a class="go-top"><i class="fa fa-angle-up"></i></a>
-		
-	<footer id="colophon" class="site-footer" role="contentinfo">
-		<div class="site-info container">
-			<a href="<?php echo esc_url( __( 'http://wordpress.org/', 'sydney' ) ); ?>"><?php printf( __( 'Proudly powered by %s', 'sydney' ), 'WordPress' ); ?></a>
-			<span class="sep"> | </span>
-			<?php printf( __( 'Theme: %2$s by %1$s.', 'sydney' ), 'aThemes', '<a href="https://athemes.com/theme/sydney" rel="designer">Sydney</a>' ); ?>
-		</div><!-- .site-info -->
-	</footer><!-- #colophon -->
+                        <div class="<?php echo $chinese_footer_class; ?> kt-footer-sidebar">
+                            <?php if (!dynamic_sidebar('chinese_footer_' . $i . '_sidebar')): ?>
+                                <div class="pre-widget">
 
-	<?php do_action('sydney_after_footer'); ?>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    <?php endfor; ?>
+                </div>
+            </div>
+        </div>
+        <?php do_action('chinese_after_footer'); ?>
 
-</div><!-- #page -->
+    </footer>
+<?php endif; // if which checks active footer sidebars ?>
+<section id="kt-copyright">
+    <div class="container">
+        <div class="row">
 
+
+            <div class="col-md-12 text-center">
+                <p>
+                    <a rel="nofollow" href="<?php echo esc_url(__(
+                        'http://ketchupthemes.com/chinese-restaurant-theme/',
+                        'chinese-restaurant')); ?>">
+                        <small><?php printf(__('Chinese Restaurant Theme', 'chinese-restaurant'));
+                            ?></small>
+                    </a>,
+                    <small><?php echo __('&copy;', 'chinese-restaurant') . date('Y'); ?></small>
+                    <small><?php bloginfo('name'); ?></small>
+
+                </p>
+            </div>
+
+
+        </div>
+    </div>
+</section>
 <?php wp_footer(); ?>
-
 </body>
 </html>

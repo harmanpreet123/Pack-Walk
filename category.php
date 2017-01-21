@@ -1,27 +1,33 @@
 <?php
 get_header(); ?>
 
-    <div id="kt-page-header-simple" class="text-center">
-        <h1><?php the_title(); ?></h1>
-    </div>
+    <header id="kt-page-header-simple" class="text-center">
 
+        <h1 class="kt-post-entry-title kt-category-title">
+            <?php single_cat_title(_e('You are viewing posts in: ', 'chinese-restaurant')); ?>
+            <?php if ($paged > 1):
+                echo
+                    '<small>' . __('   Page:
+', 'chinese-restaurant') . $paged
+                    . '</small>'; endif; ?>
+        </h1><!-- .entry-title -->
+    </header>
 
     <div class="container">
         <div class="row">
-
             <div class="col-md-8">
                 <?php do_action('chinese_before_main_content'); ?>
 
-                <main id="kt-primary">
+                <section id="kt-primary">
 
                     <div id="kt-content" class="clearfix">
 
-                        <?php get_template_part('framework/templates/content-post-template'); ?>
+                        <?php get_template_part('framework/templates/content-category'); ?>
 
                     </div>
 
-                </main>
-                <?php do_action('chinese_after_main_content'); ?>
+                </section>
+                <?php do_action('after_before_main_content'); ?>
             </div>
 
             <div class="col-md-4">
@@ -35,7 +41,7 @@ get_header(); ?>
             </div>
 
         </div>
-
     </div>
     <!-- primary-page content ends here -->
-<?php get_footer();
+<?php
+get_footer();

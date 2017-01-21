@@ -1,58 +1,54 @@
 <?php
-/**
- * The template for displaying archive pages.
- *
- * Learn more: http://codex.wordpress.org/Template_Hierarchy
- *
- * @package Sydney
- */
-
 get_header(); ?>
 
-	<?php do_action('sydney_before_content'); ?>
+    <header id="kt-page-header-simple" class="text-center">
 
-	<div id="primary" class="content-area col-md-9 <?php echo sydney_blog_layout(); ?>">
-		<main id="main" class="post-wrap" role="main">
+        <h1 class="kt-post-entry-title kt-category-title">
+            <?php if (is_year()):
+                echo __('Archive for: ', 'chinese-restaurant') . get_the_time('Y');
+            elseif (is_month()):
+                echo __('Archive for ', 'chinese-restaurant') . get_the_time('F, Y');
+            elseif (is_day()):
+                echo __('Archive for ', 'chinese-restaurant') . get_the_time('F jS, Y');
+            endif;
+            ?>
 
-		<?php if ( have_posts() ) : ?>
+            <?php if ($paged > 1):
+                echo
+                    '<small>' . __('   Page:
+','chinese-restaurant') . $paged
+                    . '</small>'; endif; ?>
+        </h1><!-- .entry-title -->
+    </header>
 
-			<header class="page-header">
-				<?php
-					the_archive_title( '<h3 class="archive-title">', '</h3>' );
-					the_archive_description( '<div class="taxonomy-description">', '</div>' );
-				?>
-			</header><!-- .page-header -->
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <?php do_action('chinese_before_main_content'); ?>
 
-			<div class="posts-layout">
-			<?php while ( have_posts() ) : the_post(); ?>
+                <section id="kt-primary">
 
-				<?php
-					/* Include the Post-Format-specific template for the content.
-					 * If you want to override this in a child theme, then include a file
-					 * called content-___.php (where ___ is the Post Format name) and that will be used instead.
-					 */
-					get_template_part( 'content', get_post_format() );
-				?>
+                    <div id="kt-content" class="clearfix">
 
-			<?php endwhile; ?>
-			</div>
-			
-			<?php the_posts_navigation(); ?>
+                        <?php get_template_part('framework/templates/content-archive'); ?>
 
-		<?php else : ?>
+                    </div>
 
-			<?php get_template_part( 'content', 'none' ); ?>
+                </section>
+                <?php do_action('chinese_after_main_content'); ?>
+            </div>
 
-		<?php endif; ?>
+            <div class="col-md-4">
+                <aside id="kt-sidebar" style="margin-top:47px">
+                    <?php if (!dynamic_sidebar('sidebar')): ?>
+                        <div class="pre-widget">
 
-		</main><!-- #main -->
-	</div><!-- #primary -->
-
-	<?php do_action('sydney_after_content'); ?>
-
-<?php 
-	if ( get_theme_mod('blog_layout','classic') == 'classic' ) :
-	get_sidebar();
-	endif;
-?>
-<?php get_footer(); ?>
+                        </div>
+                    <?php endif; ?>
+                </aside>
+            </div>
+        </div>
+    </div>
+    <!-- primary-page content ends here -->
+<?php
+get_footer();

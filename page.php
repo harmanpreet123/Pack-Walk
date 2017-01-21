@@ -1,35 +1,28 @@
 <?php
-/**
- * The template for displaying all pages.
- *
- * This is the template that displays all pages by default.
- * Please note that this is the WordPress construct of pages
- * and that other 'pages' on your WordPress site will use a
- * different template.
- *
- * @package Sydney
- */
-
 get_header(); ?>
 
-	<div id="primary" class="content-area col-md-9">
-		<main id="main" class="post-wrap" role="main">
 
-			<?php while ( have_posts() ) : the_post(); ?>
+    <div id="kt-page-header-simple" class="text-center">
+        <h1><?php the_title(); ?></h1>
+    </div>
 
-				<?php get_template_part( 'content', 'page' ); ?>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <?php do_action('chinese_before_main_content'); ?>
 
-				<?php
-					// If comments are open or we have at least one comment, load up the comment template
-					if ( comments_open() || get_comments_number() ) :
-						comments_template();
-					endif;
-				?>
+                <main id="kt-primary">
 
-			<?php endwhile; // end of the loop. ?>
+                    <div id="kt-content" class="clearfix">
 
-		</main><!-- #main -->
-	</div><!-- #primary -->
+                        <?php get_template_part('framework/templates/content-page-template'); ?>
 
-<?php get_sidebar(); ?>
-<?php get_footer(); ?>
+                    </div>
+
+                </main>
+                <?php do_action('chinese_after_main_content'); ?>
+            </div>
+        </div>
+        <!-- primary-page content ends here -->
+    </div>
+<?php get_footer();

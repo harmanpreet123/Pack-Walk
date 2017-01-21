@@ -1,105 +1,81 @@
-I.Theme
+== Chinese Restaurant Theme  ==
 
-Sydney, Copyright 2015
-Sydney is licensed under GNU General Public License V2 or later. You can find a copy of it in the license.txt file.
+Chinese Restaurant Theme uses Twitter Bootstrap responsive boilerplate that adapts your website to mobile devices and the desktop or any other viewing environment. The theme is mainly targeted for japanese or chinese restaurants, that want to display their dishes, but it can also be used for any other restaurant type or for a recipe website. Chinese Restaurant Theme has menu position, favicon upload and easy button integration for online ordering systems. Also is Customizer ready. It's Multilingual Ready, Search Engine Friendly, W3C Markup Validated and Cross-Browser compatible.
 
-II. Resources
+/**********************************************************/
 
-a) Underscores
-Solon is based on Underscores. All the files in the theme package are from Underscores, unless stated otherwise.
-Resource URI: http://underscores.me/
-Copyright: Automattic, automattic.com
-License: GPLv2
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
+== COPYRIGHT AND LICENSE ==
 
-b) Bootstrap
-All files from the /bootstrap folder are from the Bootstrap v3.1.1 package.
-Resource URI: http://getbootstrap.com/
-Copyright: 2011-2014 Twitter, Inc
-License: MIT
-License URI: http://opensource.org/licenses/MIT
+Resources packed within the theme.
+- Twitter Bootstrap v3.3.2 Framework is licenced under MIT License (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+- FontAwesome v4.3.0 by @davegandy - http://fontawesome.io - @fontawesome License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)
+- Lato font by Łukasz Dziedzic licensed under the SIL Open Font License v.1.10
+- Ketchup font by Ketchupthemes.com  is licensed under GPLv2.
+- The screenshot image contains images licensed under CC0 - Public Domain license
+- HTML5 Shiv @afarkas @jdalton @jon_neal @rem | MIT/GPL2 Licensed
+- Animate CSS by daneden is Licensed under the MIT License
+- Slicknav by ComputerWolf is licensed under MIT
+- MatchHeight.js by http://brm.io/jquery-match-height/ is licensed under MIT.
+- TGM Plugin Activation class by Thomas Griffin is licensed under MIT license.
+- Magnific Popup by Dimitriv Semenov -- Licensed under MIT
+* Other custom js files are our own creation and is licensed under the same license as this theme.
 
-c) Icons
-The icon set used in Sydney is FontAwesome.
-Copyright: Dave Gandy
-Resource URI: http://fontawesome.io
-License: SIL Open Font License, Version 1.1
-License URI: https://scripts.sil.org/OFL?
-
-d) FitVids
-Copyright: Chris Coyier, Paravel
-Resource URI: http://fitvidsjs.com/
-License: WTFPL
-License URI: http://www.wtfpl.net/txt/copying/
-
-e) jQuery Waypoints
-Copyright: 2011-2014 Caleb Troughton
-Resource URI: http://imakewebthings.com/jquery-waypoints/
-License: MIT
-License URI: http://opensource.org/licenses/MIT
-
-f) imagesLoaded
-Copyright: 2014 David DeSandro
-Resource URI: http://imagesloaded.desandro.com/
-License: MIT
-License URI: http://opensource.org/licenses/MIT
-
-g) Superslides
-Copyright: Nic Aitch
-Resource URI: https://github.com/nicinabox/superslides
-License: MIT
-License URI: http://opensource.org/licenses/MIT
-
-h) OwlCarousel
-Copyright: 2013 Bartosz Wojciechowski
-Resource URI: http://www.owlgraphic.com/owlcarousel/
-License: MIT
-License URI: http://opensource.org/licenses/MIT
-
-i) Flexslider
-Copyright: 2013 WooThemes
-Resource URI: http://www.woothemes.com/flexslider/
-License: GPLv2
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
-
-j) jQuery CountTo
-Copyright: Matt Huggins
-Resource URI: https://github.com/mhuggins/jquery-countTo
-License: MIT
-License URI: http://opensource.org/licenses/MIT
-
-k) jQuery Parallax
-Copyright: Ian Lunn
-Resource URI: http://www.ianlunn.co.uk/plugins/jquery-parallax/
-License: MIT/GPL
-License URI: http://opensource.org/licenses/MIT
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
-
-l) Isotope
-Copyright: Metafizzy
-Resource URI: http://isotope.metafizzy.co
-License: MIT/GPL
-License URI: http://opensource.org/licenses/MIT
-License URI: http://www.gnu.org/licenses/gpl-3.0.html
-
-m) Images folder
-m1) Image 1 (also used in screenshot)
-Copyright: FirmBee
-Resource URI: http://pixabay.com/en/office-tax-business-finance-620822/
-License: CC0 1.0
-License URI: http://creativecommons.org/publicdomain/zero/1.0/deed.en
-m2) Image 2
-Copyright: FirmBee
-Resource URI: http://pixabay.com/en/smartphone-photo-phone-mobile-623722/
-License: CC0 1.0
-License URI: http://creativecommons.org/publicdomain/zero/1.0/deed.en
-m3) Image 3
-Copyright: StartupStockPhotos
-Resource URI: http://pixabay.com/en/entrepreneur-startup-start-up-man-593358/
-License: CC0 1.0
-License URI: http://creativecommons.org/publicdomain/zero/1.0/deed.en
+About Images in demo -- All images below are licensed under CC0
+https://pixabay.com/en/food-eat-bowl-lunch-asian-821508/
+https://pixabay.com/en/thai-food-salad-papaya-healthy-425010/
+https://pixabay.com/en/tom-kha-gai-soup-asia-thailand-188081/
+https://pixabay.com/en/yummy-delicious-restaurant-egg-258853/
+https://pixabay.com/en/korean-haemultang-sashimi-house-sea-726743/
+https://pixabay.com/en/bibimbap-korean-cuisine-rice-egg-472698/
+https://pixabay.com/en/japanese-food-yummy-food-tasty-222255/
+https://pixabay.com/en/dim-sum-dimsum-chinese-food-163813/
+https://pixabay.com/en/sushi-salmon-niguiri-food-621433/
+https://pixabay.com/en/architecture-chair-dining-empty-70920/
+https://pixabay.com/en/bar-sushi-japanese-food-seafood-658615/
+https://pixabay.com/en/chinese-store-restaurant-china-town-692134/
+https://pixabay.com/en/dining-table-decoration-tableware-728730/
+https://pixabay.com/en/dumplings-soup-chinese-asian-asia-632206/
+https://pixabay.com/en/fortune-cookie-crispy-pastry-235793/
+https://pixabay.com/el/gochujang-%CE%BA%CE%BF%CF%81%CE%AD%CE%B1%CF%82-bibimbap-274922/
+https://pixabay.com/el/kimchi-%CE%BA%CE%BF%CF%81%CE%AD%CE%B1%CF%82-%CF%80%CE%B1%CF%81%CE%B1%CE%B4%CE%BF%CF%83%CE%B9%CE%B1%CE%BA%CE%AC-%CF%84%CF%81%CF%8C%CF%86%CE%B9%CE%BC%CE%B1-623260/
+https://pixabay.com/el/%CE%BA%CE%BF%CF%81%CE%AD%CE%B1%CF%82-%CF%84%CF%81%CF%8C%CF%86%CE%B9%CE%BC%CE%B1-%CE%B5%CF%83%CF%84%CE%B9%CE%B1%CF%84%CF%8C%CF%81%CE%B9%CE%B1-%CE%B8%CE%B1%CE%BB%CE%B1%CF%83%CF%83%CE%B9%CE%BD%CE%AC-726741/
+https://pixabay.com/el/%CE%BA%CE%BF%CF%81%CE%AD%CE%B1-%CF%84%CF%81%CF%8C%CF%86%CE%B9%CE%BC%CE%B1-%CF%84%CF%81%CF%8C%CF%86%CE%B9%CE%BC%CE%B1-delicious-822092/
+https://pixabay.com/el/spring-rolls-%CE%BA%CE%BF%CF%81%CE%B5%CE%AC%CF%84%CE%B9%CE%BA%CE%B1-asian-281883/
+https://pixabay.com/el/sushi-%CF%81%CE%BF%CE%BB%CF%8C-%CF%83%CE%BF%CF%8D%CF%83%CE%B9-%CF%80%CE%BB%CE%AC%CE%BA%CE%B1-%CE%B9%CE%B1%CF%80%CF%89%CE%BD%CE%B9%CE%BA%CE%AE-246820/
+https://pixabay.com/el/sushi-%CF%86%CE%AC%CF%84%CE%B5-%CE%B9%CE%B1%CF%80%CF%89%CE%BD%CE%B9%CE%BA%CE%AC-%CE%B1%CF%83%CE%AF%CE%B1%CF%82-%CF%84%CF%81%CE%BF%CF%86%CE%AF%CE%BC%CF%89%CE%BD-491425/
 
 
-III. Documentation
+All other resources and theme elements are licensed under the [GNU GPL](http://www.gnu.org/licenses/old-licenses/gpl-2.0.html), version 2 or later.
 
-Theme documentation is available on http://athemes.com/documentation/sydney/
+Chinese Restaurant Theme WordPress Theme, Copyright 2014 Ketchupthemes.com
+Chinese Restaurant Theme is distributed under the terms of the GNU GPL
+
+/**********************************************************/
+
+
+= Theme Features Usage =
+
+/**********************************************************/
+
+== TRANSLATIONS ==
+
+There is a language folder within the theme directory and it contains
+the "chinese-restaurant.pot"  file you can use
+with the WPML, or the PoEdit software to translate the theme.
+
+/**********************************************************/
+
+== EXTRAS ==
+
+Twitter Bootstrap customize ID : http://getbootstrap.com/customize/?id=1b37dcae3e5d9b02ae33
+
+/**********************************************************/
+
+== CHANGE LOG ==
+
+= Version 1.0 =
+- Initial Release
+
+= 3.0.1 =
+- Minor Bug fixed
+
